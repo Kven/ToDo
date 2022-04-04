@@ -10,6 +10,11 @@ namespace ToDo.Web.Querys
 {
     public partial class Query
     {
+        /// <summary>
+        /// Запрос для получения задач
+        /// </summary>
+        /// <param name="mediator">Сервис медиатора</param>
+        /// <returns>Набор задач с возможностью фильтрации</returns>
         [UseFiltering]
         [UseSorting]
         public async Task<IQueryable<ItemEntity>> GetItems([Service] IMediator mediator)

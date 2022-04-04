@@ -7,6 +7,9 @@ using ToDo.Core.Repository;
 
 namespace ToDo.Application.Features.Item
 {
+    /// <summary>
+    /// Запрос для получения фильтруемого набора задач
+    /// </summary>
     public class GetItemsQuery : IRequest<IQueryable<ItemEntity>> { }
 
     public class GetItemsQueryHandler : IRequestHandler<GetItemsQuery, IQueryable<ItemEntity>>

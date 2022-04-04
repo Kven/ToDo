@@ -10,6 +10,9 @@ using ToDo.Core.Repository;
 
 namespace ToDo.Repositorys.Mongo
 {
+    /// <summary>
+    /// Репозиторий для работы с MongoDb
+    /// </summary>
     public class MongoRepository : IRepository
     {
         private readonly IMongoDatabase _database;
@@ -49,6 +52,11 @@ namespace ToDo.Repositorys.Mongo
             await GetCollection<T>().ReplaceOneAsync(s => s.Id == id, item, new ReplaceOptions { IsUpsert = true });
         }
 
+        /// <summary>
+        /// Получение коллекции по типу объекта
+        /// </summary>
+        /// <typeparam name="T">Тип запрашиваемого объекта</typeparam>
+        /// <returns>Типизированная коллекция</returns>
         private IMongoCollection<T> GetCollection<T>() => _database.GetCollection<T>(typeof(T).Name);
     }
 }

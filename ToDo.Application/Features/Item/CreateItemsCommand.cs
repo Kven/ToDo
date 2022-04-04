@@ -9,8 +9,14 @@ using ToDo.Core.Repository;
 
 namespace ToDo.Application.Features.Item
 {
+    /// <summary>
+    /// Комнда для добавления массива задач
+    /// </summary>
     public class CreateItemsCommand : IRequest<CreateItemsPayload>
     {
+        /// <summary>
+        /// Массив наборов данных для создания задач
+        /// </summary>
         public CreateItemCommand[] Commands { get; }
         public CreateItemsCommand(params CreateItemCommand[] commands)
         {

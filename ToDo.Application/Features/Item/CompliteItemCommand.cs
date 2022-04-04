@@ -9,8 +9,14 @@ using ToDo.Core.Repository;
 
 namespace ToDo.Application.Features.Item
 {
+    /// <summary>
+    /// Команда для завершения задачи
+    /// </summary>
     public class CompliteItemCommand : IRequest<ActionsItemPayload>
     {
+        /// <summary>
+        /// Идентификатор задачи
+        /// </summary>
         public string Id { get; }
         public CompliteItemCommand(string id)
         {

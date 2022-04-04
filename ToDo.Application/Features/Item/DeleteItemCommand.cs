@@ -8,8 +8,14 @@ using ToDo.Core.Repository;
 
 namespace ToDo.Application.Features.Item
 {
+    /// <summary>
+    /// Команда для удаления задачи
+    /// </summary>
     public class DeleteItemCommand : IRequest<ActionsItemPayload>
     {
+        /// <summary>
+        /// Идентификатор задачи
+        /// </summary>
         public string Id { get; }
         public DeleteItemCommand(string id)
         {

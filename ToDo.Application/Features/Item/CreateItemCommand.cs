@@ -8,8 +8,14 @@ using ToDo.Core.Repository;
 
 namespace ToDo.Application.Features.Item
 {
+    /// <summary>
+    /// Команда для создания задачи
+    /// </summary>
     public class CreateItemCommand : IRequest<CreateItemPayload>
     {
+        /// <summary>
+        /// Заголовок
+        /// </summary>
         public string Title { get; }
         public CreateItemCommand(string title)
         {

@@ -8,8 +8,14 @@ using ToDo.Core.Repository;
 
 namespace ToDo.Application.Features.Item
 {
+    /// <summary>
+    /// Команда для обновления задачи
+    /// </summary>
     public class UpdateItemCommand : IRequest<ActionsItemPayload>
     {
+        /// <summary>
+        /// Обновленная задача, которую нужно сохранить
+        /// </summary>
         public ItemEntity Item { get; }
         public UpdateItemCommand(ItemEntity item)
         {
