@@ -1,45 +1,54 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.Extensions.Options;
+using MongoDB.Driver;
+using System;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
-
 using ToDo.Core;
+using ToDo.Core.Options;
 using ToDo.Core.Repository;
 
 namespace ToDo.Repositorys.Mongo
 {
     public class MongoRepository : IRepository
     {
-        public Task CreateAsync<T>(T item) where T : IEntity
+        private readonly IMongoDatabase _database;
+        public MongoRepository(IOptions<DatabaseOptions> options)
         {
-            throw new NotImplementedException();
+            var client = new MongoClient(options.Value.ConnectionString);
+            _database = client.GetDatabase(options.Value.DataBaseName);
         }
 
-        public Task CreateManyAsync<T>(T[] items) where T : IEntity
+        public async Task CreateAsync<T>(T item) where T : IEntity
         {
-            throw new NotImplementedException();
+            await GetCollection<T>().InsertOneAsync(item);
         }
 
-        public Task DeleteAsync<T>(string id) where T : IEntity
+        public async Task CreateManyAsync<T>(T[] items) where T : IEntity
         {
-            throw new NotImplementedException();
+            await GetCollection<T>().InsertManyAsync(items);
+        }
+
+        public async Task DeleteAsync<T>(string id) where T : IEntity
+        {
+            await GetCollection<T>().DeleteOneAsync(s => s.Id == id);
         }
 
         public Task<IQueryable<T>> FindAsync<T>(Expression<Func<T, bool>> condition) where T : IEntity
         {
-            throw new NotImplementedException();
+            return Task.FromResult(GetCollection<T>().AsQueryable().Where(condition));
         }
 
         public Task<IQueryable<T>> GetAsync<T>() where T : IEntity
         {
-            throw new NotImplementedException();
+            return Task.FromResult<IQueryable<T>>(GetCollection<T>().AsQueryable());
         }
 
-        public Task UpdateAsync<T>(string id, T item) where T : IEntity
+        public async Task UpdateAsync<T>(string id, T item) where T : IEntity
         {
-            throw new NotImplementedException();
+            await GetCollection<T>().ReplaceOneAsync(s => s.Id == id, item, new ReplaceOptions { IsUpsert = true });
         }
+
+        private IMongoCollection<T> GetCollection<T>() => _database.GetCollection<T>(typeof(T).Name);
     }
 }
